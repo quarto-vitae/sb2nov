@@ -1,0 +1,13 @@
+$-- One line per entry: upstream's \resumeSubItem{title}{description}, its
+$-- shape for a listing that needs no elaboration (upstream uses it for
+$-- Projects). `what` is set in bold as the title; the description is built
+$-- from `where` (falling back to `with`) and `when`, in the manner of
+$-- awesome-cv's own `brief` style. `why` is deliberately ignored -- a listing
+$-- that needs it wants the `detailed` style.
+\resumeSubHeadingListStart
+$for(entries)$
+  \resumeSubItem
+    {$entries.what$} % what
+    {$if(entries.where)$$entries.where$$elseif(entries.with)$$entries.with$$endif$$if(entries.when)$$if(entries.where)$, $elseif(entries.with)$, $endif$$entries.when$$endif$} % where (or with), when
+$endfor$
+\resumeSubHeadingListEnd

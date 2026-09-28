@@ -1,0 +1,49 @@
+$sb2nov-preamble.tex()$
+
+\begin{document}
+
+%----------HEADING-----------------
+% Upstream sets its name/link and its two contact lines as a single two-column
+% tabular row, which only works because it always has exactly one line on the
+% left and two on the right. A `.entries`-free document can as easily give
+% zero contact fields as five, so this pairs two top-aligned minipages instead
+% -- the same technique latexcv-classic.tex uses to sit a photo beside a
+% variable-length contact block -- with `\hfill` between them standing in for
+% upstream's `\extracolsep{\fill}`. A tabular row anchors multi-line cells on
+% their vertical centre, which would otherwise sink the name below the top of
+% a tall contact stack; minipages anchor on their first line instead, keeping
+% the name level with the first contact however many follow it.
+\noindent
+\begin{minipage}[t]{0.62\textwidth}
+  \textbf{$if(www)$\href{https://$www$}{\Large $name$$if(surname)$ $surname$$endif$}$else$\Large $name$$if(surname)$ $surname$$endif$$endif$}\\
+$if(position)$  \textit{\small $position$}
+$endif$
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.36\textwidth}
+  \raggedleft
+  \jrcontacts
+\end{minipage}
+
+$if(linestretch)$
+\setstretch{$linestretch$}
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+$body$
+
+$before-bib.tex()$
+
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$biblio.tex()$
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+\end{document}

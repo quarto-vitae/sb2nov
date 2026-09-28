@@ -1,0 +1,28 @@
+$-- A full entry: upstream's own \resumeSubheading, wired to the what/with/
+$-- where/when convention shared by every quarto-vitae template.
+$--
+$-- Upstream's docstring for this command is \resumeSubheading{Institution}
+$-- {Location}{Role}{Dates} -- so its four arguments are, in this convention's
+$-- terms, {with}{where}{what}{when}, in that order.
+$--
+$-- `why` is not force-fit into upstream's own \resumeItem{title}{description},
+$-- which expects two arguments of hand-authored text. Our data model instead
+$-- hands each bullet as one already-composed markdown string, so it is set
+$-- with the plainer \item, the same way awesome-cv's own detailed.tex does.
+$-- The trailing \vspace{-2pt} is copied from \resumeItem's own body, since
+$-- \resumeItemListStart opens a plain itemize with none of upstream's
+$-- tightening built in -- without it, a why list reads noticeably looser
+$-- than the rest of this famously dense design.
+\resumeSubHeadingListStart
+$for(entries)$
+  \resumeSubheading
+    {$entries.with$}  % with
+    {$entries.where$} % where
+    {$entries.what$}  % what
+    {$entries.when$}  % when
+  $if(entries.why)$\resumeItemListStart
+$for(entries.why)$    \item $entries.why$\vspace{-2pt}
+$endfor$  \resumeItemListEnd$endif$
+
+$endfor$
+\resumeSubHeadingListEnd

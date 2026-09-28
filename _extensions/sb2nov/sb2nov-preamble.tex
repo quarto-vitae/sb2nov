@@ -1,0 +1,236 @@
+%!TEX TS-program = pdflatex
+%!TEX encoding = UTF-8 Unicode
+% Jake's Resume, a Quarto format for the LaTeX template packaged at
+% https://github.com/sb2nov/resume by Sourabh Bajaj -- the single most-copied
+% resume template on Overleaf, where it circulates under the nickname "Jake's
+% Resume".
+%
+% Adapted to be a Quarto template by Mitchell O'Hara-Wild
+%
+% Upstream license: MIT (see LICENSE.md)
+%
+% Unlike Awesome-CV or latexcv, upstream ships no class file: it is one
+% ~200-line .tex of \documentclass{article} plus a handful of \newcommand
+% definitions. Everything up to \begin{document} -- those commands, class
+% options, colours and Pandoc's own preamble -- lives here; sb2nov.tex adds
+% only the document-specific header, since upstream hard-codes its name and
+% contact details rather than defining a command for them.
+%-------------------------------------------------------------------------------
+% CONFIGURATIONS
+%-------------------------------------------------------------------------------
+$passoptions.latex()$
+%
+% US letter by default, matching upstream; set `papersize: a4` to override.
+$doc-class.tex()$
+
+\usepackage{titlesec}
+% Upstream loads the plain `color` package, which has no notion of `headcolor`
+% as a hex string. `xcolor` is loaded instead -- with the same `usenames,
+% dvipsnames` options upstream passes, which it also understands -- since only
+% xcolor's `HTML` colour model and \colorlet can parse and fall back on one,
+% exactly as awesome-cv and latexcv already do.
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+% Provides \urlstyle below. Upstream gets this for free as a side effect of
+% loading hyperref itself; hyperref is loaded later here, by common.latex(),
+% so \url's own package is loaded directly rather than moving \urlstyle{same}
+% out of its upstream position.
+\usepackage{url}
+% Upstream also loads `tabularx`, but never opens the `tabularx` environment
+% it provides -- every table in the file is a plain `tabular*`. Dropped as
+% dead weight rather than carried over unused.
+
+% This template writes its own preamble rather than deferring to Pandoc's
+% default article one, so nothing sets input or font encoding unless it is
+% done here. `iftex` guards both: they are pdftex-only, and a document that
+% overrides `pdf-engine` to xelatex or lualatex gets UTF-8 input and modern
+% font handling natively, without these.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
+  % Ensures the generated PDF's text is machine-readable/ATS-parsable --
+  % the entire point of this design -- by teaching pdfTeX the Unicode glyph
+  % each ligature and accent command actually stands for. Guarded the same
+  % way: the primitive it sets does not exist outside pdfTeX.
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\fi
+
+% Upstream loads `babel[english]` itself. Pandoc's own babel-lang.tex, pulled
+% in by common.latex() below, already loads babel from the document's `lang`
+% metadata (English unless told otherwise), so loading it a second time here
+% would risk an option clash instead of adding anything.
+
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Page margins. Upstream reaches its (approximately half-inch) margins with
+% `\usepackage[empty]{fullpage}` plus a stack of `\addtolength` corrections on
+% top of it, which only add up for letterpaper -- change the paper size and
+% the corrections no longer land where upstream intended. `geometry` is used
+% instead, as every other quarto-vitae template does, so `papersize` and
+% `geometry` in the document front matter both work as expected.
+$if(geometry)$
+\geometry{$for(geometry)$$geometry$$sep$,$endfor$}
+$else$
+\geometry{left=0.75in, right=0.75in, top=0.6in, bottom=0.7in}
+$endif$
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Accent colour for the section rule and heading text.
+%
+% Jake's Resume itself is black-and-white -- its one \color{black} call in
+% \titleformat below is there only to stop \color{Blue} et al from a
+% surrounding document leaking into the section rule, not to make the colour
+% configurable. `headcolor` is honoured anyway, for consistency with every
+% other quarto-vitae template, but defaults to upstream's own black so a
+% document that says nothing about it renders identically to upstream.
+$if(headcolor)$
+\definecolor{sectioncolor}{HTML}{$headcolor$}
+$else$
+\colorlet{sectioncolor}{black}
+$endif$
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\color{sectioncolor}
+}{}{0em}{}[\color{sectioncolor}\titlerule \vspace{-5pt}]
+
+% Upstream defines no second-level heading at all -- every upstream section is
+% a \resumeSubheading table row instead. A `##` is still given a styled
+% command rather than falling through to article's plain, unindented
+% \subsection, so a document that does use one degrades gracefully.
+\titleformat{\subsection}{
+  \vspace{-2pt}\scshape\raggedright\normalsize\color{sectioncolor}
+}{}{0em}{}
+
+%-------------------------------------------------------------------------------
+% Custom commands
+%
+% Kept verbatim from upstream, so the entries/ templates below call exactly
+% the commands sb2nov/resume itself calls; only how those commands are
+% invoked (which what/with/where/when/why field goes in which argument) is
+% this port's own work. See entries/detailed.tex, entries/brief.tex and
+% entries/skills.tex for the wiring.
+\newcommand{\resumeItem}[2]{
+  \item\small{
+    \textbf{#1}{: #2 \vspace{-2pt}}
+  }
+}
+
+% Just in case someone needs a heading that does not need to be in a list
+\newcommand{\resumeHeading}[4]{
+    \begin{tabular*}{0.99\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small #3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small #3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small #1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeItemPlain}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+\renewcommand{\labelitemii}{$$\circ$$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%
+%	Upstream hard-codes its own name, one link and two contact lines directly
+%	in the header table. This template needs that stood up from the document's
+%	front matter instead, and with more than two contact fields possible, so
+%	the right-hand column is built from \jrcontact calls that separate
+%	themselves, in the manner of latexcv's \cvcontacts -- a fixed `\\` between
+%	every conditional block would otherwise leave a blank stacked line wherever
+%	a field is unset.
+%-------------------------------------------------------------------------------
+\newif\ifjrfirstcontact
+\newcommand{\jrcontactsep}{\\}
+\newcommand{\jrcontact}[1]{\ifjrfirstcontact\jrfirstcontactfalse\else\jrcontactsep\fi #1}
+% Every line ends in a `%', as latexcv's own \cvcontacts does: an unset field
+% leaves its whole line blank, and an unescaped blank line is a paragraph
+% break. Left in, that \par lands *between* two \jrcontact calls and closes
+% the paragraph \jrcontactsep's `\\` needs still open, so the next contact
+% after a gap fails with "There's no line here to end" instead of stacking.
+\newcommand{\jrcontacts}{%
+  \jrfirstcontacttrue
+  $if(email)$\jrcontact{Email: \href{mailto:$email$}{$email$}}$endif$%
+  $if(phone)$\jrcontact{Mobile: \href{tel:$phone$}{$phone$}}$endif$%
+  $if(www)$\jrcontact{\href{https://$www$}{$www$}}$endif$%
+  $if(github)$\jrcontact{\href{https://github.com/$github$}{github.com/$github$}}$endif$%
+  $if(linkedin)$\jrcontact{\href{https://www.linkedin.com/in/$linkedin$}{linkedin.com/in/$linkedin$}}$endif$%
+}
+
+% Computer Modern's default fonts are Metafont bitmaps, not scalable outlines.
+% common.latex() below turns on microtype's font expansion unconditionally,
+% which errors outright the moment it meets a non-scalable font. lmodern is
+% Computer Modern's metric-compatible, fully scalable replacement, and is
+% loaded before common.latex() so that microtype's own font detection sees it
+% -- loaded by default here for the same reason latexcv defaults to raleway,
+% except that upstream sets no font of its own to take that default's place.
+% A document naming its own `fontfamily` is trusted to have made expansion
+% work, or to not mind microtype falling back silently if it has not.
+$if(fontfamily)$
+$else$
+\ifPDFTeX
+  \usepackage{lmodern}
+\fi
+$endif$
+
+%-------------------------------------------------------------------------------
+%	PANDOC SUPPORT
+%-------------------------------------------------------------------------------
+% Upstream's own \usepackage[hidelinks]{hyperref} is not written here: the
+% common.latex() partial below loads hyperref itself (via pandoc.tex), and
+% loading it twice with different options is a package clash. Passing the
+% option through beforehand gets the same plain, unboxed, uncoloured links.
+\PassOptionsToPackage{hidelinks}{hyperref}
+
+% common.latex is required in every custom Quarto LaTeX template, and calls
+% pandoc.tex, which in turn brings in syntax highlighting, tables.tex,
+% graphics.tex, citations.tex, babel-lang.tex, tightlist.tex, biblio-config.tex
+% and header-includes. Do not hand-copy any of those: they are Pandoc's to
+% maintain, and a stale local copy silently drifts out of step with the reader.
+$common.latex()$
+$after-header-includes.latex()$
+$hypersetup.latex()$
+
+% Honours mainfont/sansfont/monofont under a unicode engine, and `fontfamily`
+% (a LaTeX font package name, e.g. `mathpazo`) under pdflatex -- which is also
+% how a document overrides the lmodern default set above. fonts.latex is NOT
+% called: on top of loading lmodern unconditionally, doubling the one above,
+% it would also load unicode-math, which pdflatex cannot process.
+$font-settings.latex()$

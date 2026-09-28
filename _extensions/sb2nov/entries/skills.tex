@@ -1,0 +1,12 @@
+$-- A category paired with its members, in the shape of upstream's own
+$-- commented-out Skills block: `\textbf{Category}{: comma list}`. Upstream
+$-- packs exactly two categories per line with \hfill between them, which
+$-- only works for a document that happens to have two; one \resumeItemPlain
+$-- per category is used instead, so any number of skill groups lists
+$-- cleanly. Members are given either as one string in `with` or as a list in
+$-- `why`, joined with commas the way awesome-cv's own skills.tex does.
+\resumeSubHeadingListStart
+$for(entries)$
+  \resumeItemPlain{\textbf{$entries.what$:} $if(entries.with)$$entries.with$$else$$for(entries.why)$$entries.why$$sep$, $endfor$$endif$}
+$endfor$
+\resumeSubHeadingListEnd

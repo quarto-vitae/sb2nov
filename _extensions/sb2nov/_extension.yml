@@ -1,0 +1,50 @@
+title: Jake's Resume
+author: Mitchell O'Hara-Wild
+version: 0.1.0
+quarto-required: ">=1.7.0"
+contributes:
+  formats:
+    pdf:
+      # Upstream sticks to pdftex-safe packages (titlesec, enumitem, hyperref,
+      # fancyhdr, glyphtounicode) and never touches fontspec, so pdflatex is
+      # used rather than xelatex, as latexcv does for the same reason. Cheaper
+      # to render: nothing needs fetching from a font server on first run.
+      pdf-engine: pdflatex
+      template: sb2nov.tex
+      template-partials:
+        - sb2nov-preamble.tex
+      # No separate .cls: upstream is a single .tex file of \newcommand
+      # definitions loaded straight into article, so there is nothing for
+      # format-resources to copy next to the render.
+      documentclass: article
+      # Upstream is written for US letter, unlike the org's other templates
+      # (which default to a4) -- Jake's Resume is a US-market ATS resume, and
+      # this keeps upstream's own default. Still overridable, as everywhere
+      # else: set `papersize: a4` to change it.
+      papersize: letter
+      fontsize: 11pt
+      # Upstream loads hyperref with `hidelinks`: links are plain black text,
+      # not boxed or coloured. Quarto's pdf format defaults this to true,
+      # which would override that and print every link blue.
+      colorlinks: false
+      # Default knitr engine printing data directly as a markdown table.
+      df-print: kable
+      # A CV is a document of listings; echoing the code that builds them is
+      # almost never wanted.
+      echo: false
+      # Provided by the embedded copy of quarto-vitae/curriculum, under
+      # _extensions/quarto-vitae/curriculum. Filters are matched by the
+      # embedded extension's directory name (its extension id), not by the
+      # Lua filter's filename -- so this must say "curriculum", matching
+      # quarto-vitae/curriculum's own directory name.
+      # Refresh with:
+      #   quarto update quarto-vitae/curriculum --embed sb2nov
+      filters:
+        - curriculum
+      # Style names this template implements, for the filter's fallback
+      # warning. No heading-remap Lua filter is needed: upstream restyles the
+      # article class's own \section with \titleformat rather than renaming
+      # it, so `#`/`##` already land on the right command through Pandoc's
+      # ordinary heading-to-LaTeX mapping.
+      vitae:
+        styles: [detailed, brief, skills]

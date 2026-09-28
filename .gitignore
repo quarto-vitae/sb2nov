@@ -1,0 +1,9 @@
+/.quarto/
+*_files/
+
+# Rendered output of template.qmd. Delete this line if you would like to
+# commit a rendered preview of the template.
+/template.pdf
+/template.tex
+
+/.luarc.json
