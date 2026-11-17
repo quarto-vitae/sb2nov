@@ -1,4 +1,4 @@
-# Jake's Resume
+# Sourabh's Resume
 
 A Quarto format for writing a resume with the LaTeX template packaged at
 [sb2nov/resume](https://github.com/sb2nov/resume) by Sourabh Bajaj — the
@@ -132,7 +132,7 @@ this template generalises that to whichever items are set.
 
 | Option | Effect |
 |--------|--------|
-| `headcolor` | Accent colour as a hex string, such as `"8C1E1E"`, tinting the section rule and heading text. Jake's Resume is otherwise black and white, so this defaults to black. |
+| `headcolor` | Accent colour as a hex string, such as `"8C1E1E"`, tinting the section rule and heading text. Sourabh's Resume is otherwise black and white, so this defaults to black. |
 | `fontsize` | Base font size, defaulting to `11pt`. |
 | `papersize` | Paper size, defaulting to `letter`, matching upstream. Use `a4` to switch. |
 | `geometry` | Page margins, passed to the `geometry` package. Defaults to upstream's own tight margins. |

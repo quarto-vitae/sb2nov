@@ -1,4 +1,4 @@
-title: Jake's Resume
+title: Sourabh's Resume
 author: Mitchell O'Hara-Wild
 version: 0.1.0
 quarto-required: ">=1.7.0"
@@ -18,7 +18,7 @@ contributes:
       # format-resources to copy next to the render.
       documentclass: article
       # Upstream is written for US letter, unlike the org's other templates
-      # (which default to a4) -- Jake's Resume is a US-market ATS resume, and
+      # (which default to a4) -- Sourabh's Resume is a US-market ATS resume, and
       # this keeps upstream's own default. Still overridable, as everywhere
       # else: set `papersize: a4` to change it.
       papersize: letter
