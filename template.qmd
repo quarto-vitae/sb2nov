@@ -2,12 +2,13 @@
 name: Marie
 surname: Curie
 position: "Physicist and Chemist"
-email: "marie.curie@example.org"
-github: mcurie
+social:
+  - email: marie.curie@example.org
+  - github: mcurie
 # Uncomment to add more to the header:
-# phone: "+33 1 23 45 67 89"
-# www: "example.org"
-# linkedin: mcurie
+#  - phone: "+33 1 23 45 67 89"
+#  - website: example.org
+#  - linkedin: mcurie
 # headcolor: "8C1E1E"
 format: sb2nov-pdf
 ---

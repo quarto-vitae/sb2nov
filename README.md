@@ -35,8 +35,9 @@ Set the format and describe yourself in the YAML header:
 name: Marie
 surname: Curie
 position: "Physicist and Chemist"
-email: "marie.curie@example.org"
-github: mcurie
+social:
+  - email: marie.curie@example.org
+  - github: mcurie
 format: sb2nov-pdf
 ---
 ```
@@ -117,12 +118,15 @@ Set these in the YAML header. All are optional except `name`.
 |--------|--------|
 | `name`, `surname` | The name shown in the header |
 | `position` | A subtitle line under the name |
-| `phone`, `email`, `www` | Contact details, stacked at the right of the header |
-| `github`, `linkedin` | Profiles, stacked below the contact details |
+| `social` | Contact details and profiles, stacked at the right of the header in the order written |
+
+`social` is the same list every vitae template reads, of `service: handle`
+items such as `email`, `phone`, `website`, `github` and `linkedin`; see the
+[curriculum documentation](https://github.com/quarto-vitae/curriculum#contact-details)
+for the full list of services. A `website` also links the name.
 
 Upstream's own header links only the name and lists exactly Email and Mobile;
-this template generalises that to whichever of the fields above are actually
-set, in the same order.
+this template generalises that to whichever items are set.
 
 ### Appearance
 

@@ -177,6 +177,10 @@ $endif$
 %	every conditional block would otherwise leave a blank stacked line wherever
 %	a field is unset.
 %-------------------------------------------------------------------------------
+% Upstream links the name to the personal website; the last `website` in
+% `social` is the one that does so here.
+\newcommand{\jrnamelink}[1]{#1}
+$for(social)$$if(social.is.website)$\renewcommand{\jrnamelink}[1]{\href{$social.url$}{#1}}$endif$$endfor$
 \newif\ifjrfirstcontact
 \newcommand{\jrcontactsep}{\\}
 \newcommand{\jrcontact}[1]{\ifjrfirstcontact\jrfirstcontactfalse\else\jrcontactsep\fi #1}
@@ -187,11 +191,9 @@ $endif$
 % after a gap fails with "There's no line here to end" instead of stacking.
 \newcommand{\jrcontacts}{%
   \jrfirstcontacttrue
-  $if(email)$\jrcontact{Email: \href{mailto:$email$}{$email$}}$endif$%
-  $if(phone)$\jrcontact{Mobile: \href{tel:$phone$}{$phone$}}$endif$%
-  $if(www)$\jrcontact{\href{https://$www$}{$www$}}$endif$%
-  $if(github)$\jrcontact{\href{https://github.com/$github$}{github.com/$github$}}$endif$%
-  $if(linkedin)$\jrcontact{\href{https://www.linkedin.com/in/$linkedin$}{linkedin.com/in/$linkedin$}}$endif$%
+  $for(social)$%
+  $if(social.is.email)$\jrcontact{Email: \href{$social.url$}{$social.label$}}$elseif(social.is.phone)$\jrcontact{Mobile: \href{$social.url$}{$social.label$}}$elseif(social.is.github)$\jrcontact{\href{$social.url$}{github.com/$social.label$}}$elseif(social.is.linkedin)$\jrcontact{\href{$social.url$}{linkedin.com/in/$social.label$}}$elseif(social.url)$\jrcontact{\href{$social.url$}{$social.label$}}$else$\jrcontact{$social.label$}$endif$%
+  $endfor$%
 }
 
 % Computer Modern's default fonts are Metafont bitmaps, not scalable outlines.
